@@ -1,0 +1,151 @@
+body{
+	background: #f3f3f3;
+	font-family: "微軟正黑體";
+	cursor: default;
+}
+#topWrap{
+	padding: 10px 0px 0px;
+}
+#downWrap{
+	height: 400px;
+	overflow: auto;
+}
+.container{
+	background: #FFF;
+}
+.row{
+	margin: auto 15px;
+}
+#sT{
+	background: #FFF;
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+#sT th{
+	width: 50px;
+}
+#sT th+th{
+	width: auto;
+}
+/*#sT td{
+    width: 150px;
+}
+#sT tbody th{
+    width: 50px;
+}*/
+#cT td{
+	vertical-align: middle;
+}
+#footer{
+	font-size: 14px;
+	padding: 10px 0px 10px;
+	font-family: 'Coming Soon', cursive;
+}
+.btn-myDefault{
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn-myDefault:hover{
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+#colorC{
+	vertical-align: middle;
+}
+#color{
+	width: 20px;
+	height: 20px;
+	border-radius: 50px;
+	background: #FFF;
+	border: 1px solid black;
+	display: inline-block;
+	margin: 0px 15px;
+	vertical-align: middle;
+}
+#resetC button{
+	padding: 3px 10px !important;
+	margin: 0px 20px;
+}
+#ss button{
+	margin: 0px 10px 5px 0px;
+}
+#toTop{
+	position: fixed;
+	bottom: 2%;
+	right: 2%;
+	opacity: 0.4;
+	display: none;
+	cursor: pointer;
+}
+#back{
+	width: 700px;
+	height: 80%;
+	position: absolute;
+	top: 550px;
+	left: 20%;
+	background: #FFF;
+	padding: 10px 10px;
+	z-index: 100;
+	border: 5px solid #b2b2b2;
+	box-shadow: 2px 2px 2px #bbbbbb;
+	display: none;
+	overflow: auto;
+}
+#bug{
+	display: none;
+	width: 30px;
+	height: 75px;
+	background: rgb(48, 48, 48);
+	color: #fff;
+	font-weight: 700;
+	position: fixed;
+	bottom: 100px;
+	left: -10px;
+	border-radius: 0px 5px 5px 0px;
+	text-align: center;
+	padding-left: 10px;
+	font-size: 15px;
+	line-height: 18px;
+	font-family: "微軟正黑體";
+	word-wrap: break-word;
+	cursor: pointer;
+}
+#edit{
+	position: absolute;
+	display: none;
+}
+/*new*/
+#nav{
+	height: 30px;
+	background: rgb(48, 48, 48);
+}
+#fbWrap{
+	margin-top: 5px;
+	height: 20px;
+	line-height: 20px;
+	font-weight: bold;
+	color: #f3f3f3;
+}
+#fbWrap a{
+	color: #f3f3f3;
+}
+#fbWrap a:hover, #bug a:hover{
+	color: #b2b2b2;
+}
+#save{
+	margin-left: 10px;
+}
+#user{
+	margin-right: 15px;
+	font-weight: 400;
+	font-family: 'Coming Soon', cursive;
+}
+#loading{
+	display: none;
+}
+/*
+div{
+	border: 1px solid black;
+}*/

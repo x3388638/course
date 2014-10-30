@@ -1,0 +1,13 @@
+sandbox83510d1646e4403aafa2a17980739197.mailgun.org
+
+Domain Information
+Status "Active"
+IP Address "Shared"
+SMTP Hostname "smtp.mailgun.org"
+Default SMTP Login "postmaster@sandbox83510d1646e4403aafa2a17980739197.mailgun.org Manage SMTP credentials"
+Default Password "1kl46rg-d8x7 Change password"
+
+SMTP Tips
+Mailgun SMTP servers listen on ports 25, 587 and 465 (TLS)
+Use "plain text" SMTP authentication. For enhanced security use TLS encryption.
+Use any address in "From" field in emails you send, but for improved deliverability we recommend to send from a @sandbox83510d1646e4403aafa2a17980739197.mailgun.org address
