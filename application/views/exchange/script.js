@@ -1,67 +1,3 @@
-$(document).ready(function(){
-	window.fbAsyncInit = function() {
-		FB.init({
-			appId      : '692848007448707',
-			xfbml      : true,
-			version    : 'v2.0'
-		});
-		loginStatus();
-	};
-	(function(d, s, id){
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) {return;}
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/zh_TW/sdk.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-	$(window).scroll(scroll);
-	$("#toTop").hover(
-		function(){
-			$(this).stop(true, false).animate({"opacity":"1"}, 250);
-		}, 
-		function(){
-			$(this).stop(true, false).animate({"opacity":"0.4"}, 250);
-		}
-	).click(function(){
-		$("body").scrollTo({"top":"0px", "left":"0px"}, 500);
-	});
-	$("#bug").hover(
-    	function(){
-    		$(this).stop(true, false).animate({"left":"0px"}, 250);
-    	}, 
-    	function(){
-    		$(this).stop(true, false).animate({"left":"-10px"}, 250);
-    	}
-    );
-    $("#reportSubmit").click(rSubmit);
-    $("#bug").click(bug);
-    setModal();
-    $("#supply").click(supply);
-    $("#demand").click(demand);
-    $("#addSCname").click(addSCname);
-    $("#supplySubmit").click(supplySubmit);
-    $("#addWant").click(addWant);
-    $("#demandSubmit").click(demandSubmit);
-    $("#closeModal1").click(hideModal1);
-    $("#supplyB").click(supply);
-    $("#demandB").click(demand);
-    $("#list tbody").on("click", "tr", detail);
-    $("#list tbody tr:eq(0)").click();
-    $("#leaveDemand").click(leaveDemand);
-    $("#addldWant").click(addldWant);
-    $("#addldHave").click(addldHave);
-    $("#addeWant").click(addeWant);
-    $("#addeHave").click(addeHave);
-    $("#ldSubmit").click(ldSubmit);
-    $("#showall").click(function(){
-    	$("#list tbody tr").show();
-    	$("#list tbody tr:eq(0)").click();
-    	$("#showall").html("");
-    });
-    $("#dDel").on("click", "#delB", delB);
-    $("#dEdit").on("click", "#editB", editB);
-    $("#eSubmit").click(eSubmit);
-});
 function scroll(){
 	if($(window).scrollTop()> 100){
 		$("#toTop").stop(true, false).fadeIn(250);
@@ -173,23 +109,57 @@ function supplySubmit(){
 		FB.api("/me", function(user){
 			$(".loading").show();
 			btn.attr('disabled', true);
+			var postData= {
+				uid: user.id,
+				name: user.name, 
+				want: JSON.stringify(want),
+				have: JSON.stringify(cname), 
+				desc: desc
+			};
 			$.post("http://localhost/CodeIgniter/course/cont/addList", 
-				{
-					uid: user.id,
-					name: user.name, 
-					want: JSON.stringify(want),
-					have: JSON.stringify(cname), 
-					desc: desc
-				}, 
+				postData, 
 				function(){
-					$.get("http://localhost/CodeIgniter/course/cont/getList", function(data){
-						$("#list tbody").html(data);
-						$("#list tbody tr:eq(0)").click();
-						$("#showall").click();
-						$(".loading").hide();
-						btn.attr('disabled', false);
-						$("#supplyModal").click();
+					// $.get("http://localhost/CodeIgniter/course/cont/getList", function(data){
+					// 	$("#list tbody").html(data);
+					// 	$("#list tbody tr:eq(0)").click();
+					// 	$("#showall").click();
+					// 	$(".loading").hide();
+					// 	btn.attr('disabled', false);
+					// 	$("#supplyModal").click();
+					// });
+
+					//start-- ws
+					var wantStr= '';
+					var haveStr= '';
+					$.each(want, function(i, val){
+						if(i!= 0){
+							wantStr+= '<br>';
+						}
+						wantStr+= want[i];
 					});
+					$.each(cname, function(i ,val){
+						if(i!= 0){
+							haveStr+= '<br>';
+						}
+						haveStr+= cname[i];
+					});
+					var msg= {
+						'action': 'add', 
+						'order': +$('#list tbody tr:eq(0) td:eq(0)').text()+1, 
+						'name': postData.name, 
+						'want': wantStr, 
+						'have': haveStr, 
+						'desc': postData.desc
+					}
+					wsUpdate(msg);
+					Server.conn.send(JSON.stringify(msg));
+					console.log('wsSend');
+					$("#list tbody tr:eq(0)").click();
+					$("#showall").click();
+					$(".loading").hide();
+					btn.attr('disabled', false);
+					$("#supplyModal").click();
+					//end-- ws
 				}
 			);
 		});
@@ -295,23 +265,56 @@ function ldSubmit(){
 		FB.api('/me', function(user){
 			$(".loading").show();
 			btn.attr('disabled', true);
+			var postData= {
+				uid: user.id,
+				name: user.name, 
+				want: JSON.stringify(want),
+				have: JSON.stringify(have), 
+				desc: desc
+			};
 			$.post("http://localhost/CodeIgniter/course/cont/addList", 
-				{
-					uid: user.id,
-					name: user.name, 
-					want: JSON.stringify(want),
-					have: JSON.stringify(have), 
-					desc: desc
-				}, 
+				postData, 
 				function(data){
-					$.get("http://localhost/CodeIgniter/course/cont/getList", function(data){
-						$("#list tbody").html(data);
-						$("#list tbody tr:eq(0)").click();
-						$(".loading").hide();
-						btn.attr('disabled', false);
-						$("#showall").click();
+					// $.get("http://localhost/CodeIgniter/course/cont/getList", function(data){
+					// 	$("#list tbody").html(data);
+					// 	$("#list tbody tr:eq(0)").click();
+					// 	$(".loading").hide();
+					// 	btn.attr('disabled', false);
+					// 	$("#showall").click();
+					// 	$("#ldModal").click();
+					// });
+					/*start-- ws*/
+					var wantStr= '';
+					var haveStr= '';
+					$.each(want, function(i, val){
+						if(i!= 0){
+							wantStr+= '<br>';
+						}
+						wantStr+= want[i];
 					});
+					$.each(have, function(i ,val){
+						if(i!= 0){
+							haveStr+= '<br>';
+						}
+						haveStr+= have[i];
+					});
+					var msg= {
+						'action': 'add', 
+						'order': +$('#list tbody tr:eq(0) td:eq(0)').text()+1, 
+						'name': postData.name, 
+						'want': wantStr, 
+						'have': haveStr, 
+						'desc': postData.desc
+					}
+					wsUpdate(msg);
+					Server.conn.send(JSON.stringify(msg));
+					console.log('wsSend');
+					$("#list tbody tr:eq(0)").click();
+					$(".loading").hide();
+					btn.attr('disabled', false);
+					$("#showall").click();
 					$("#ldModal").click();
+					/*end-- ws*/
 				}
 			);
 		});
@@ -332,10 +335,20 @@ function delB(){
 								id: id
 							}, 
 							function(data){
-								$.get("http://localhost/CodeIgniter/course/cont/getList", function(data){
-									$("#list tbody").html(data);
-									$("#list tbody tr:eq(0)").click();
-								});
+								// $.get("http://localhost/CodeIgniter/course/cont/getList", function(data){
+								// 	$("#list tbody").html(data);
+								// 	$("#list tbody tr:eq(0)").click();
+								// });
+								/* start-- ws */
+								var msg= {
+									'action': 'del', 
+									'id': id
+								};
+								wsUpdate(msg); 
+								Server.conn.send(JSON.stringify(msg));
+								console.log('wsSend');
+								$("#list tbody tr:eq(0)").click();
+								/* end-- ws */
 							}
 						);
 					}
@@ -430,25 +443,60 @@ function eSubmit(){
 					if(count> 0){
 						$(".loading").show();
 						btn.attr('disabled', true);
+						var postData= {
+							id: id, 
+							want: JSON.stringify(want),
+							have: JSON.stringify(have), 
+							desc: desc
+						};
 						$.post("http://localhost/CodeIgniter/course/cont/updateList", 
-							{
-								id: id, 
-								want: JSON.stringify(want),
-								have: JSON.stringify(have), 
-								desc: desc
-							}, 
+							postData, 
 							function(data){
-								$.get("http://localhost/CodeIgniter/course/cont/getList", function(data){
-									$("#list tbody").html(data);
-									$("#list tbody tr").each(function(){
-										if($(this).children("td:eq(0)").text()== id){
-											$(this).click();
-										}
-									});
-									$(".loading").hide();
-									btn.attr('disabled', false);
-									$("#editModal").click();
+								// $.get("http://localhost/CodeIgniter/course/cont/getList", function(data){
+								// 	$("#list tbody").html(data);
+								// 	$("#list tbody tr").each(function(){
+								// 		if($(this).children("td:eq(0)").text()== id){
+								// 			$(this).click();
+								// 		}
+								// 	});
+								// 	$(".loading").hide();
+								// 	btn.attr('disabled', false);
+								// 	$("#editModal").click();
+								// });
+								/* start-- ws */
+								var wantStr= '';
+								$.each(want, function(i, val){
+									if(i!= 0){
+										wantStr+= '<br>';
+									}
+									wantStr+= want[i];
 								});
+								var haveStr= '';
+								$.each(have, function(i, val){
+									if(i!= 0){
+										haveStr+= '<br>';
+									}
+									haveStr+= have[i];
+								})
+								var msg= {
+									'action': 'edit',
+									'id': postData.id, 
+									'want': wantStr, 
+									'have': haveStr, 
+									'desc': postData.desc
+								};
+								wsUpdate(msg);
+								Server.conn.send(JSON.stringify(msg));
+								console.log('wsSend');
+								$("#list tbody tr").each(function(){
+									if($(this).children("td:eq(0)").text()== id){
+										$(this).click();
+									}
+								});
+								$(".loading").hide();
+								btn.attr('disabled', false);
+								$("#editModal").click();
+								/* end-- ws */
 							}
 						);
 					}
@@ -457,3 +505,108 @@ function eSubmit(){
 		);
 	});
 }
+function wsUpdate(msg){
+	if(msg.action=== 'add'){
+		$('#list tbody').prepend('<tr><td>'+msg.order+'</td><td>'+msg.name+'</td><td>'+msg.want+'</td><td>'+msg.have+'</td><td>'+msg.desc+'</td></tr>');
+	}
+	else if(msg.action=== 'del'){
+		$('#list tbody tr td:first-child:contains('+msg.id+')').each(function(i){
+			if($(this).text()=== msg.id){
+				$(this).parent().fadeOut(500).remove();
+			}
+		});
+	}
+	else if(msg.action=== 'edit'){
+		$('#list tbody tr td:first-child:contains('+msg.id+')').each(function(i){
+			if($(this).text()=== msg.id){
+				$(this).next().next().html(msg.want).next().html(msg.have).next().html(msg.desc);
+			}
+		});
+	}
+	else{
+		console.log('E');
+	}
+}
+var Server;
+$(document).ready(function(){
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId      : '692848007448707',
+			xfbml      : true,
+			version    : 'v2.0'
+		});
+		loginStatus();
+	};
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/zh_TW/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	$(window).scroll(scroll);
+	$("#toTop").hover(
+		function(){
+			$(this).stop(true, false).animate({"opacity":"1"}, 250);
+		}, 
+		function(){
+			$(this).stop(true, false).animate({"opacity":"0.4"}, 250);
+		}
+	).click(function(){
+		$("body").scrollTo({"top":"0px", "left":"0px"}, 500);
+	});
+	$("#bug").hover(
+		function(){
+			$(this).stop(true, false).animate({"left":"0px"}, 250);
+		}, 
+		function(){
+			$(this).stop(true, false).animate({"left":"-10px"}, 250);
+		}
+	);
+	$("#reportSubmit").click(rSubmit);
+	$("#bug").click(bug);
+	setModal();
+	$("#supply").click(supply);
+	$("#demand").click(demand);
+	$("#addSCname").click(addSCname);
+	$("#supplySubmit").click(supplySubmit);
+	$("#addWant").click(addWant);
+	$("#demandSubmit").click(demandSubmit);
+	$("#closeModal1").click(hideModal1);
+	$("#supplyB").click(supply);
+	$("#demandB").click(demand);
+	$("#list tbody").on("click", "tr", detail);
+	$("#list tbody tr:eq(0)").click();
+	$("#leaveDemand").click(leaveDemand);
+	$("#addldWant").click(addldWant);
+	$("#addldHave").click(addldHave);
+	$("#addeWant").click(addeWant);
+	$("#addeHave").click(addeHave);
+	$("#ldSubmit").click(ldSubmit);
+	$("#showall").click(function(){
+		$("#list tbody tr").show();
+		$("#list tbody tr:eq(0)").click();
+		$("#showall").html("");
+	});
+	$("#dDel").on("click", "#delB", delB);
+	$("#dEdit").on("click", "#editB", editB);
+	$("#eSubmit").click(eSubmit);
+	//ws
+	Server= new FancyWebSocket('ws://localhost:9300');
+	Server.bind('open', function(){
+		console.log('wsConnected');
+	});
+	Server.bind('close', function(){
+		console.log('wsDisconnected')
+	});
+	Server.bind('message', function(msg){
+		try{
+			wsUpdate(JSON.parse(msg));
+			console.log('wsReceive');
+		}
+		catch(e){
+			console.log('ERR_TYPE_OF_MSG');
+		}
+	});
+	Server.connect();
+});

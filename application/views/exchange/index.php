@@ -18,6 +18,7 @@
         <script src= "<?php echo base_url();?>application/views/canvas2png.js"></script>
         <script src= "<?php echo base_url();?>application/views/bootstrap-3.2.0/dist/js/bootstrap.min.js"></script>
         <script src= "<?php echo base_url();?>application/views/jquery.scrollTo.min.js"></script>
+        <script src= "<?php echo base_url();?>application/views/fancywebsocket.js"></script>
         <script src= "<?php echo base_url();?>application/views/exchange/script.js"></script>
     </head>
     <body onSelectStart="event.returnValue=false">
