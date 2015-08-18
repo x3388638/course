@@ -114,13 +114,13 @@
             	</div>
             </div>
             <div id= "toTop"><img src= "<?PHP echo base_url()?>application/views/top.png" width= "50px"></div>
-            <div id= "back">
+            <!-- <div id= "back">
                 <div class= "row">
                     <button id= "sclose" type="button" class="close pull-right"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 </div>
                 <div id= "scontent" class= "row">
                 </div>
-            </div>
+            </div> -->
             <div id= "map">
                 <a href= "http://ccweb.ncnu.edu.tw/student/DeptQuerylist.asp#tbl_DeptQuerylist" target= "_blank">各系課程地圖</a>
             </div>
@@ -129,6 +129,18 @@
             </div>
             <div id= "edit">
                 <textarea id= "editText" cols= "30" rows= "3"></textarea>
+            </div>
+            <div class="modal fade" id="courseContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4>大綱</h4>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal fade" id="customClassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
                 <div class="modal-dialog" role="document">

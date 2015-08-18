@@ -51,9 +51,9 @@ $(document).ready(function(){
 	).click(function(){
 		$("body").scrollTo({"top":"0px", "left":"0px"}, 500);
 	});
-	$("#sclose").click(function(){
-		$("#back").slideUp(500);
-	});
+	// $("#sclose").click(function(){
+	// 	$("#back").slideUp(500);
+	// });
 	$("#search").keyup(search);
 	$("#ss").click(screenshot);
     $("#exc").click(excel);
@@ -411,8 +411,10 @@ function summary(){
 		function(data){
 			var content= data.content;
 			content= content.replace(/(?:\r\n|\r|\n)/g, "<br><br>");
-			$("#scontent").html(content);
-			$("#back").slideDown(500);
+            $('#courseContent .modal-body').html(content);
+            $('#courseContent').modal('show');
+			// $("#scontent").html(content);
+			// $("#back").slideDown(500);
 		}
 	);
 }
