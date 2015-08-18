@@ -27,12 +27,12 @@ body{
 #sT th+th{
 	width: auto;
 }
-/*#sT td{
-    width: 150px;
+#sT td{
+    overflow: hidden;
 }
 #sT tbody th{
     width: 50px;
-}*/
+}
 #cT td{
 	vertical-align: middle;
 }

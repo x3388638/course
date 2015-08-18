@@ -78,7 +78,7 @@
             </div>
             <hr style= "padding: 40px 0px 0px; margin: 50px 0px 0px">
             <div class= "row">
-                <div class= "col-md-12" style= "margin-bottom: 10px">
+                <div class= "col-md-12" style= "margin-bottom: 10px; height: 25px">
                     <span class= "pull-right" style= "color: #b2b2b2;">*善用 <kbd>ctrl</kbd>+<kbd>f</kbd> 搜尋課程</span>
                     <div class= "input-group input-group-lg pull-left">
                         <select id= "dept">
