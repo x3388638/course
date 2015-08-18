@@ -213,6 +213,7 @@ function delC(){
     var cell= $(this).parent("td");
     var c= cell.text();
     if(c!= ""){
+        cell.css({'background': '', 'color': '#000'});
     	var wd= getWD(cell)+1;
     	var rowspan= cell.prop("rowspan");
 		cell.text("").prop("rowspan", 1);
