@@ -13,7 +13,7 @@
                         alert();
                     }
                     else{
-                        val= val.replace("[學士班]", "").replace("(限已向語文中心登記選修者)", "");
+                        val= val.replace("[學士班]", "").replace("[碩士班]", "").replace("[博士班]", "").replace("(限已向語文中心登記選修者)", "");
                         var arr= val.split(" ");
                         var dept= arr[0];
                         var cid= arr[1];
