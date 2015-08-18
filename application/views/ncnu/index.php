@@ -64,7 +64,15 @@
                 	</table>
                 </div>
                 <div id= "colorWrap" class= "pull-left">
-                        <span style= "color: #b2b2b2; vertical-align: middle">自行配色</span><div id= "color" data-toggle="tooltip" data-placement="bottom" title= "拖曳至表格"></div><input id= "colorC" type= "color" value= "#FFFFFF" data-toggle="tooltip" data-placement="bottom" title= "選取顏色, 拖曳左方圓圈"><div id= "resetC" class= "btn-group btn-group-sm" data-toggle="tooltip" data-placement="bottom" title= "重新上色"><button class= "btn btn-myDefault">重設</button></div>
+                        <span style= "color: #b2b2b2; vertical-align: middle">自行配色</span>
+                        <div id= "color" data-toggle="tooltip" data-placement="bottom" title= "拖曳至表格"></div>
+                        <input id= "colorC" type= "color" value= "#FFFFFF" data-toggle="tooltip" data-placement="bottom" title= "選取顏色, 拖曳左方圓圈">
+                        <div id= "resetC" class= "btn-group btn-group-sm" data-toggle="tooltip" data-placement="bottom" title= "重新上色">
+                            <button class= "btn btn-myDefault">重設</button>
+                        </div>
+                        <div id= "customC" class= "btn-group btn-group-sm" data-toggle="tooltip" data-placement="bottom" title= "自訂時間 &amp; 內容">
+                            <button data-toggle="modal" data-target="#customClassModal" class= "btn btn-myDefault">自訂課程</button>
+                        </div>
                 </div> 
                 <span class= "pull-right" style= "color: #b2b2b2">*雙擊課程表格可編輯</span>
             </div>
@@ -121,6 +129,47 @@
             </div>
             <div id= "edit">
                 <textarea id= "editText" cols= "30" rows= "3"></textarea>
+            </div>
+            <div class="modal fade" id="customClassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">自訂課程</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="customClassTime" class="col-sm-2 control-label">*時間: </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="customClassTime" placeholder="Ex: 2bcd">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customClassName" class="col-sm-2 control-label">*課名: </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="customClassName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customClassLocation" class="col-sm-2 control-label">地點: </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="customClassLocation">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customClassTeacher" class="col-sm-2 control-label">教師: </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="customClassTeacher">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button id = 'addCustomC' type="button" class="btn btn-myDefault">加入</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">

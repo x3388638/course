@@ -38,7 +38,7 @@ $(document).ready(function(){
 		}
 	);
 	$("#sT tbody td").droppable(option);
-	$("#colorC, #resetC, #ss, #color, #save").tooltip();
+	$("#colorC, #resetC, #customC, #ss, #color, #save").tooltip();
 	$("#resetC").click(reset);
 	$(window).scroll(scroll);
 	$("#toTop").hover(
@@ -86,6 +86,7 @@ $(document).ready(function(){
     $("#save").click(save);
     $("#reportSubmit").click(rSubmit);
     $("#bug").click(bug);
+    $('#addCustomC').click(addCustomC);
 });
 
 function tdi(){
@@ -101,11 +102,13 @@ function tdl(){
 	$(this).removeClass("active");
 	$(this).children(".delC").remove();
 }
-function addC(){
-	var t= $(this).parent("td").parent("tr").children("td:nth-child(5)").text();
-	var location= $(this).parent("td").parent("tr").children("td:nth-child(6)").text();
-	var cname= $(this).parent("td").parent("tr").children("td:nth-child(3)").text();
-	var teacher= $(this).parent("td").parent("tr").children("td:nth-child(7)").text();
+function addC(t, location, cname, teacher){
+    if(typeof t != 'string' || typeof location != 'string' || typeof cname != 'string' || typeof teacher != 'string') {
+    	t = $(this).parent("td").parent("tr").children("td:nth-child(5)").text(); // time
+    	location = $(this).parent("td").parent("tr").children("td:nth-child(6)").text();
+    	cname = $(this).parent("td").parent("tr").children("td:nth-child(3)").text();
+    	teacher = $(this).parent("td").parent("tr").children("td:nth-child(7)").text();
+    }
 	var arr= [];
 	for(var i= 0; i< t.length; i++){
 		arr.push(t.charAt(i));
@@ -157,7 +160,10 @@ function addC(){
 			var new_wd=wd- count;
 			var select= "#sT tbody tr[time="+row+"] td:eq("+(new_wd-1)+")";
 			if(i== 1){
-				$(select).html(cname+"<br style='mso-data-placement:same-cell;'>"+location+" "+teacher).prop('rowspan', arr.length-1).css("vertical-align", "middle");
+				$(select).html(
+                    $('<span>').text(cname).html() + "<br style='mso-data-placement:same-cell;'>" + 
+                    $('<span>').text(location).html() + " " + $('<span>').text(teacher).html()
+                ).prop('rowspan', arr.length-1).css("vertical-align", "middle");
 			}
 			else{
 				$(select).remove();
@@ -601,4 +607,73 @@ function rSubmit(){
 			);
 		});
 	}
+}
+function addCustomC() {
+    var t = $('#customClassTime').val();
+    var location = $('#customClassLocation').val();
+    var cname = $('#customClassName').val();
+    var teacher = $('#customClassTeacher').val();
+    if(t == '' || cname == '') {
+        alert('時間 & 課名不得為空');
+        return;
+    }
+    var v = validateTime(t);
+    if(!v.valid) {
+        alert(v.msg);
+        return;
+    }
+    $('#customClassModal').modal('hide');
+    addC(t.toLowerCase(), location, cname, teacher);
+}
+function validateTime(t) {
+    if(/^[1-7]{1}[A-LZa-lz]+$/.test(t)) {
+        // 2bcd, 2abz, 2cba
+        var arr = [];
+        for(var i = 1; i < t.length; i++) {
+            arr.push(t.charAt(i));
+        }
+        var last = -1;
+        var err = 0;
+        for(var c in arr) {
+            var current = arr[c].charCodeAt();
+            if(last != -1) {
+                if(current == 122) { // z
+                    if(last != 100) {
+                        err++;
+                        break;
+                    }
+                    last = current;
+                    continue; 
+                }
+                if(current == 101) { // e
+                    if(last != 122) {
+                        err++;
+                        break;
+                    }
+                    last = current;
+                    continue; 
+                }
+                if(current != (+last +1)) {
+                    err++;
+                    break;
+                }
+            }
+            last = current;
+        }
+        if(err) {
+            return {
+                valid: false, 
+                msg: '時段不連續'
+            }
+        } else {
+            return {
+                valid: true
+            }
+        }
+    } else {
+        return {
+            valid: false, 
+            msg: '時間格式錯誤'
+        }
+    }
 }
