@@ -224,114 +224,120 @@ function delC(){
     	var rowspan= cell.prop("rowspan");
 		cell.text("").prop("rowspan", 1);
     	if(rowspan>= 2){
-    		var row= cell.parent("tr").next("tr").attr("time");
-    		var num= $.parseJSON($.cookie("rowArr"))[row];
-    		var count= 0;
-    		for(var i= 0; i< num.length; i++){
-    			if(num.charAt(i)< wd)
-    				count++;
-    		}
-    		var new_wd= wd- count;
-    		if((new_wd-2)== -1){
-    			cell.parent("tr").next("tr").children("th").after("<td></td>");
-    			cell.parent("tr").next("tr").children("th").next("td").droppable(option);
-    		}
-    		else{
-	    		var eq= "td:eq("+(new_wd-2)+")"
-	    		cell.parent("tr").next("tr").children(eq).after("<td></td>");
-	    		cell.parent("tr").next("tr").children(eq).next("td").droppable(option);
-	    	}
-    		var cook= $.parseJSON($.cookie("rowArr"));
-			cook[row]= cook[row].replace(wd, "");
-			$.cookie("rowArr", JSON.stringify(cook));
-    		if(rowspan>= 3){
-    			row= cell.parent("tr").next("tr").next("tr").attr("time");
-    			num= $.parseJSON($.cookie("rowArr"))[row];
-    			count= 0;
-    			for(var i= 0; i< num.length; i++){
-	    			if(num.charAt(i)< wd)
-	    				count++;
-	    		}
-	    		new_wd= wd- count;
-	    		if((new_wd-2)== -1){
-	    			cell.parent("tr").next("tr").next("tr").children("th").after("<td></td>");
-	    			cell.parent("tr").next("tr").next("tr").children("th").next("td").droppable(option);
-	    		}
-	    		else{
-		    		eq= "td:eq("+(new_wd-2)+")"
-		    		cell.parent("tr").next("tr").next("tr").children(eq).after("<td></td>");
-		    		cell.parent("tr").next("tr").next("tr").children(eq).next("td").droppable(option);
-		    	}
-		    	cook= $.parseJSON($.cookie("rowArr"));
-				cook[row]= cook[row].replace(wd, "");
-				$.cookie("rowArr", JSON.stringify(cook));
-    		}
-    		if(rowspan>= 4){
-    			row= cell.parent("tr").next("tr").next("tr").next("tr").attr("time");
-    			num= $.parseJSON($.cookie("rowArr"))[row];
-    			count= 0;
-    			for(var i= 0; i< num.length; i++){
-	    			if(num.charAt(i)< wd)
-	    				count++;
-	    		}
-	    		new_wd= wd- count;
-	    		if((new_wd-2)== -1){
-	    			cell.parent("tr").next("tr").next("tr").next("tr").children("th").after("<td></td>");
-	    			cell.parent("tr").next("tr").next("tr").next("tr").children("th").next("td").droppable(option);
-	    		}
-	    		else{
-		    		eq= "td:eq("+(new_wd-2)+")"
-		    		cell.parent("tr").next("tr").next("tr").next("tr").children(eq).after("<td></td>");
-		    		cell.parent("tr").next("tr").next("tr").next("tr").children(eq).next("td").droppable(option);
-		    	}
-		    	cook= $.parseJSON($.cookie("rowArr"));
-				cook[row]= cook[row].replace(wd, "");
-				$.cookie("rowArr", JSON.stringify(cook));
-    		}
-    		if(rowspan>= 5){
-    			row= cell.parent("tr").next("tr").next("tr").next("tr").next("tr").attr("time");
-    			num= $.parseJSON($.cookie("rowArr"))[row];
-    			count= 0;
-    			for(var i= 0; i< num.length; i++){
-	    			if(num.charAt(i)< wd)
-	    				count++;
-	    		}
-	    		new_wd= wd- count;
-	    		if((new_wd-2)== -1){
-	    			cell.parent("tr").next("tr").next("tr").next("tr").next("tr").children("th").after("<td></td>");
-	    			cell.parent("tr").next("tr").next("tr").next("tr").next("tr").children("th").next("td").droppable(option);
-	    		}
-	    		else{
-		    		eq= "td:eq("+(new_wd-2)+")"
-		    		cell.parent("tr").next("tr").next("tr").next("tr").next("tr").children(eq).after("<td></td>");
-		    		cell.parent("tr").next("tr").next("tr").next("tr").next("tr").children(eq).next("td").droppable(option);
-		    	}
-		    	cook= $.parseJSON($.cookie("rowArr"));
-				cook[row]= cook[row].replace(wd, "");
-				$.cookie("rowArr", JSON.stringify(cook));
-    		}
-    		if(rowspan>= 6){
-    			row= cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").attr("time");
-    			num= $.parseJSON($.cookie("rowArr"))[row];
-    			count= 0;
-    			for(var i= 0; i< num.length; i++){
-	    			if(num.charAt(i)< wd)
-	    				count++;
-	    		}
-	    		new_wd= wd- count;
-	    		if((new_wd-2)== -1){
-	    			cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").children("th").after("<td></td>");
-	    			cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").children("th").next("td").droppable(option);
-	    		}
-	    		else{
-		    		eq= "td:eq("+(new_wd-2)+")"
-		    		cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").children(eq).after("<td></td>");
-		    		cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").children(eq).next("td").droppable(option);
-		    	}
-		    	cook= $.parseJSON($.cookie("rowArr"));
-				cook[row]= cook[row].replace(wd, "");
-				$.cookie("rowArr", JSON.stringify(cook));
-    		}
+            var currentRow = cell.parent("tr");
+            var nextRow; 
+            for(var i = 0; i < (rowspan -1); i++) {
+                nextRow = currentRow.next("tr");
+                var row= nextRow.attr("time");
+        		var num= $.parseJSON($.cookie("rowArr"))[row];
+        		var count= 0;
+        		for(var j= 0; j< num.length; j++){
+        			if(num.charAt(j)< wd)
+        				count++;
+        		}
+        		var new_wd= wd- count;
+        		if((new_wd-2)== -1){
+        			nextRow.children("th").after("<td></td>");
+        			nextRow.children("th").next("td").droppable(option);
+        		}
+        		else{
+    	    		var eq= "td:eq("+(new_wd-2)+")"
+    	    		nextRow.children(eq).after("<td></td>");
+    	    		nextRow.children(eq).next("td").droppable(option);
+    	    	}
+        		var cook= $.parseJSON($.cookie("rowArr"));
+    			cook[row]= cook[row].replace(wd, "");
+    			$.cookie("rowArr", JSON.stringify(cook));
+                currentRow = nextRow;
+            }
+    // 		if(rowspan>= 3){
+    // 			row= cell.parent("tr").next("tr").next("tr").attr("time");
+    // 			num= $.parseJSON($.cookie("rowArr"))[row];
+    // 			count= 0;
+    // 			for(var i= 0; i< num.length; i++){
+	   //  			if(num.charAt(i)< wd)
+	   //  				count++;
+	   //  		}
+	   //  		new_wd= wd- count;
+	   //  		if((new_wd-2)== -1){
+	   //  			cell.parent("tr").next("tr").next("tr").children("th").after("<td></td>");
+	   //  			cell.parent("tr").next("tr").next("tr").children("th").next("td").droppable(option);
+	   //  		}
+	   //  		else{
+		  //   		eq= "td:eq("+(new_wd-2)+")"
+		  //   		cell.parent("tr").next("tr").next("tr").children(eq).after("<td></td>");
+		  //   		cell.parent("tr").next("tr").next("tr").children(eq).next("td").droppable(option);
+		  //   	}
+		  //   	cook= $.parseJSON($.cookie("rowArr"));
+				// cook[row]= cook[row].replace(wd, "");
+				// $.cookie("rowArr", JSON.stringify(cook));
+    // 		}
+    // 		if(rowspan>= 4){
+    // 			row= cell.parent("tr").next("tr").next("tr").next("tr").attr("time");
+    // 			num= $.parseJSON($.cookie("rowArr"))[row];
+    // 			count= 0;
+    // 			for(var i= 0; i< num.length; i++){
+	   //  			if(num.charAt(i)< wd)
+	   //  				count++;
+	   //  		}
+	   //  		new_wd= wd- count;
+	   //  		if((new_wd-2)== -1){
+	   //  			cell.parent("tr").next("tr").next("tr").next("tr").children("th").after("<td></td>");
+	   //  			cell.parent("tr").next("tr").next("tr").next("tr").children("th").next("td").droppable(option);
+	   //  		}
+	   //  		else{
+		  //   		eq= "td:eq("+(new_wd-2)+")"
+		  //   		cell.parent("tr").next("tr").next("tr").next("tr").children(eq).after("<td></td>");
+		  //   		cell.parent("tr").next("tr").next("tr").next("tr").children(eq).next("td").droppable(option);
+		  //   	}
+		  //   	cook= $.parseJSON($.cookie("rowArr"));
+				// cook[row]= cook[row].replace(wd, "");
+				// $.cookie("rowArr", JSON.stringify(cook));
+    // 		}
+    // 		if(rowspan>= 5){
+    // 			row= cell.parent("tr").next("tr").next("tr").next("tr").next("tr").attr("time");
+    // 			num= $.parseJSON($.cookie("rowArr"))[row];
+    // 			count= 0;
+    // 			for(var i= 0; i< num.length; i++){
+	   //  			if(num.charAt(i)< wd)
+	   //  				count++;
+	   //  		}
+	   //  		new_wd= wd- count;
+	   //  		if((new_wd-2)== -1){
+	   //  			cell.parent("tr").next("tr").next("tr").next("tr").next("tr").children("th").after("<td></td>");
+	   //  			cell.parent("tr").next("tr").next("tr").next("tr").next("tr").children("th").next("td").droppable(option);
+	   //  		}
+	   //  		else{
+		  //   		eq= "td:eq("+(new_wd-2)+")"
+		  //   		cell.parent("tr").next("tr").next("tr").next("tr").next("tr").children(eq).after("<td></td>");
+		  //   		cell.parent("tr").next("tr").next("tr").next("tr").next("tr").children(eq).next("td").droppable(option);
+		  //   	}
+		  //   	cook= $.parseJSON($.cookie("rowArr"));
+				// cook[row]= cook[row].replace(wd, "");
+				// $.cookie("rowArr", JSON.stringify(cook));
+    // 		}
+    // 		if(rowspan>= 6){
+    // 			row= cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").attr("time");
+    // 			num= $.parseJSON($.cookie("rowArr"))[row];
+    // 			count= 0;
+    // 			for(var i= 0; i< num.length; i++){
+	   //  			if(num.charAt(i)< wd)
+	   //  				count++;
+	   //  		}
+	   //  		new_wd= wd- count;
+	   //  		if((new_wd-2)== -1){
+	   //  			cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").children("th").after("<td></td>");
+	   //  			cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").children("th").next("td").droppable(option);
+	   //  		}
+	   //  		else{
+		  //   		eq= "td:eq("+(new_wd-2)+")"
+		  //   		cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").children(eq).after("<td></td>");
+		  //   		cell.parent("tr").next("tr").next("tr").next("tr").next("tr").next("tr").children(eq).next("td").droppable(option);
+		  //   	}
+		  //   	cook= $.parseJSON($.cookie("rowArr"));
+				// cook[row]= cook[row].replace(wd, "");
+				// $.cookie("rowArr", JSON.stringify(cook));
+    // 		}
     	}
 
     	
