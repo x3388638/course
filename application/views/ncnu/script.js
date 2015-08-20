@@ -601,6 +601,7 @@ function bug(){
 function rSubmit(){
 	if($("#reportContent").val()!= ""){
 		$("#loading").show();
+        $('#reportSubmit').attr('disabled', true);
 		FB.api('/me', function(user){
 			$.post("http://localhost/CodeIgniter/course/cont/report", 
 				{
@@ -608,6 +609,7 @@ function rSubmit(){
 					content: $("#reportContent").val()
 				}, 
 				function(data){
+                    $('#reportSubmit').attr('disabled', false);
 					$("#loading").hide();
 					$("#modalClose").click();
 					$("#reportContent").val("");
