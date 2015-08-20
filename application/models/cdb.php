@@ -31,5 +31,9 @@
         public function addList($uid, $name, $want, $have, $desc, $time){
             $this->db->query("INSERT INTO `list` (`uid`, `name`, `want`, `have`, `desc`, `time`) VALUES ('$uid', '$name', '$want', '$have', '$desc', '$time')");
         }
+        public function addReportLog($uid, $content) {
+            $time= date("Y/m/d H:i:s");
+            $this->db->query("INSERT INTO `report` (`time`, `uid`, `content`) VALUES ('$time', '$uid', '$content')");
+        }
     }
 ?>

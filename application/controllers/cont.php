@@ -81,6 +81,9 @@
                 if($mail->send()){
                     echo "success";
                 }
+
+                // record to db
+                $this->cdb->addReportLog($uid, $content);
             }
         }
         public function addList(){
