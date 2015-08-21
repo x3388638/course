@@ -154,13 +154,13 @@
                                 <div class="form-group">
                                     <label for="customClassTime" class="col-sm-2 control-label">*時間: </label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="customClassTime" placeholder="Ex: 2bcd">
+                                        <input type="text" class="form-control" id="customClassTime" placeholder="Ex: 2abcdzefghijkl3abcdzefghijkl">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="customClassName" class="col-sm-2 control-label">*課名: </label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="customClassName">
+                                        <input type="text" class="form-control" id="customClassName" placeholder="放假">
                                     </div>
                                 </div>
                                 <div class="form-group">

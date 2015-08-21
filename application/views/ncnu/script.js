@@ -680,6 +680,29 @@ function addCustomC() {
         alert(errMsg);
         return;
     }
+    // 自己與自己衝堂
+    var conflict = 0;
+    for(var i = 0; i < timeArr.length; i++) {
+        var wd = timeArr[i].charAt(0)
+        for(var j = i + 1; j < timeArr.length; j++) {
+            var compareWd = timeArr[j].charAt(0);
+            if(wd == compareWd) {
+                var compareTime = {};
+                for(var k = 1; k < timeArr[j].length; k++) {
+                    compareTime[timeArr[j].charAt(k)] = timeArr[j].charAt(k);
+                }
+                for(var k in timeArr[i]) {
+                    if(compareTime[timeArr[i][k]]) {
+                        conflict = 1;
+                    }
+                }
+            }
+        }
+    }
+    if(conflict) {
+        alert('衝堂');
+        return;
+    }
     $('#customClassModal').modal('hide');
     addC(t.toLowerCase(), location, cname, teacher);
 }
