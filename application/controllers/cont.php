@@ -68,7 +68,7 @@
                 $mail->Host= 'smtp.mailgun.org';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'postmaster@sandbox83510d1646e4403aafa2a17980739197.mailgun.org';
-                $mail->Password = '1kl46rg-d8x7';
+                $mail->Password = 'jonilars';
                 $mail->SMTPSecure = 'tls';
                 /*-------------------------*/
                 $mail->From = 'report@imcourse.com';
