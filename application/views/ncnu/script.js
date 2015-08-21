@@ -109,69 +109,87 @@ function addC(t, location, cname, teacher){
     	cname = $(this).parent("td").parent("tr").children("td:nth-child(3)").text();
     	teacher = $(this).parent("td").parent("tr").children("td:nth-child(7)").text();
     }
-	var arr= [];
+	var arr= []; // [['2', 'a', 'b'], ['3', 'c', 'd']]
+    var section = [];
 	for(var i= 0; i< t.length; i++){
-		arr.push(t.charAt(i));
+        if(!isNaN(t.charAt(i))) {
+            if(section.length > 0) {
+                arr.push(section);
+                section = [];
+            }
+        }
+        section.push(t.charAt(i));
+        if(i == (t.length -1)) {
+            arr.push(section);
+        }
+
+		// arr.push(t.charAt(i));
 	}
-	var wd= arr[0];
-	if(wd>= 6){
-		if($.cookie('sat')== "f"){
-			$("#sT thead tr").append("<th>Sat.</th>");
-			$("#sT tbody tr").append("<td></td>");
-			$("#sT tbody tr td:last-child").droppable(option);
-			$.cookie('sat', 't');
-		}
-		if(wd== 7){
-			if($.cookie('sun')== "f"){
-				$("#sT thead tr").append("<th>Sun.</th>");
-				$("#sT tbody tr").append("<td></td>");
-				$("#sT tbody tr td:last-child").droppable(option);
-				$.cookie('sun', 't');
-			}
-		}
-	}
-	var err= 0;
-	for(var i= 1; i< arr.length; i++){
-		var row= arr[i];
-		var count= 0;
-		var num= $.parseJSON($.cookie("rowArr"))[row];
-		for(var j= 0; j< num.length; j++){
-			if(num.charAt(j)< wd)
-				count++;
-			if(num.charAt(j)== wd)
-				err++;
-		}
-		if(err> 0)
-			break;
-		var new_wd=wd- count;
-		var select= "#sT tbody tr[time="+row+"] td:eq("+(new_wd-1)+")";
-		if($(select).text().length> 0)
-			err++;
-	}
+    var err= 0;
+    for(var k = 0; k < arr.length; k ++) {
+    	// var wd= arr[0];
+        var wd = arr[k][0];
+    	if(wd>= 6){
+    		if($.cookie('sat')== "f"){
+    			$("#sT thead tr").append("<th>Sat.</th>");
+    			$("#sT tbody tr").append("<td></td>");
+    			$("#sT tbody tr td:last-child").droppable(option);
+    			$.cookie('sat', 't');
+    		}
+    		if(wd== 7){
+    			if($.cookie('sun')== "f"){
+    				$("#sT thead tr").append("<th>Sun.</th>");
+    				$("#sT tbody tr").append("<td></td>");
+    				$("#sT tbody tr td:last-child").droppable(option);
+    				$.cookie('sun', 't');
+    			}
+    		}
+    	}
+    	for(var i= 1; i< arr[k].length; i++){
+    		var row= arr[k][i];
+    		var count= 0;
+    		var num= $.parseJSON($.cookie("rowArr"))[row];
+    		for(var j= 0; j< num.length; j++){
+    			if(num.charAt(j)< wd)
+    				count++;
+    			if(num.charAt(j)== wd)
+    				err++;
+    		}
+    		if(err> 0)
+    			break;
+    		var new_wd=wd- count;
+    		var select= "#sT tbody tr[time="+row+"] td:eq("+(new_wd-1)+")";
+    		if($(select).text().length> 0)
+    			err++;
+    	}
+    }
 	if(err== 0){
-		for(var i= 1; i< arr.length; i++){
-			var row= arr[i];
-			var count= 0;
-			var num= $.parseJSON($.cookie("rowArr"))[row];
-			for(var j= 0; j< num.length; j++){
-				if(num.charAt(j)< wd)
-					count++;
-			}
-			var new_wd=wd- count;
-			var select= "#sT tbody tr[time="+row+"] td:eq("+(new_wd-1)+")";
-			if(i== 1){
-				$(select).html(
-                    $('<span>').text(cname).html() + "<br style='mso-data-placement:same-cell;'>" + 
-                    $('<span>').text(location).html() + " " + $('<span>').text(teacher).html()
-                ).prop('rowspan', arr.length-1).css("vertical-align", "middle");
-			}
-			else{
-				$(select).remove();
-				var cook= $.parseJSON($.cookie("rowArr"));
-				cook[row]+= wd;
-				$.cookie("rowArr", JSON.stringify(cook));
-			}
-		}
+        for(var k = 0; k < arr.length; k++) {
+            var wd = arr[k][0];
+    		for(var i= 1; i< arr[k].length; i++){
+    			var row= arr[k][i];
+    			var count= 0;
+    			var num= $.parseJSON($.cookie("rowArr"))[row];
+    			for(var j= 0; j< num.length; j++){
+    				if(num.charAt(j)< wd)
+    					count++;
+    			}
+    			var new_wd=wd- count;
+    			var select= "#sT tbody tr[time="+row+"] td:eq("+(new_wd-1)+")";
+    			if(i== 1){
+    				$(select).html(
+                        $('<span>').text(cname).html() + "<br style='mso-data-placement:same-cell;'>" + 
+                        $('<span>').text(location).html() + " " + $('<span>').text(teacher).html()
+                    ).prop('rowspan', arr[k].length-1).css("vertical-align", "middle");
+    			}
+    			else{
+    				$(select).remove();
+    				var cook= $.parseJSON($.cookie("rowArr"));
+    				cook[row]+= wd;
+    				$.cookie("rowArr", JSON.stringify(cook));
+    			}
+    		}
+        }
 	}
 	else{
 		alert("衝堂");
@@ -627,9 +645,39 @@ function addCustomC() {
         alert('時間 & 課名不得為空');
         return;
     }
-    var v = validateTime(t);
-    if(!v.valid) {
-        alert(v.msg);
+    var timeArr = [];
+    var section = '';
+    var valid = 1;
+    var errMsg = ''
+    for(var i = 0; i < t.length; i++) {
+        if(!isNaN(t.charAt(i))) {
+            if(section != '') {
+                timeArr.push(section);
+                var v = validateTime(section);
+                if(!v.valid) {
+                    valid = 0
+                    errMsg = v.msg;
+                }
+                section = '';
+            }
+        }
+        section += t.charAt(i);
+        if(i == t.length - 1) {
+            timeArr.push(section);
+            var v = validateTime(section);
+            if(!v.valid) {
+                valid = 0
+                errMsg = v.msg;
+            }
+        }
+    }
+    // var v = validateTime(t);
+    // if(!v.valid) {
+    //     alert(v.msg);
+    //     return;
+    // }
+    if(!valid) {
+        alert(errMsg);
         return;
     }
     $('#customClassModal').modal('hide');
