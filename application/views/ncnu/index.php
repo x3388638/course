@@ -26,7 +26,9 @@
             <div class= "row">
                 <div class= "col-md-12">
                     <div id= "linkWrap" class= "pull-left">
-                        <a href= "<?PHP echo base_url()?>ncnu.htm">我的課表</a><a href= "<?PHP echo base_url()?>ncnu/exchange.htm">換課平台</a>
+                        <a href= "<?PHP echo base_url()?>ncnu.htm">我的課表</a>
+                        <a href= "<?PHP echo base_url()?>ncnu/exchange.htm">換課平台</a>
+                        <a href="http://focaaby.github.io/NCNUCourse/" target="_blank">課程評價系統 <span style="font-size:9px" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
                     </div>
                     <div id= "fbWrap" class= "pull-right">
                     </div>
