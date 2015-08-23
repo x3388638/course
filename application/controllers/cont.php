@@ -173,5 +173,28 @@
                 }
             }
         }
+        public function admin() {
+            if(isset($_POST)) {
+                $user = $_POST['user'];
+                $pass = $_POST['pass'];
+                if(md5(md5($user).'abc') == 'c0f97e55908b6cc0411040cc1e3b9ecf' && md5(md5($pass).'qwer') == '7d633eb4a91d30642746d5ee408f52f4') {
+                    echo json_encode(array('valid' => 1));
+                } else {
+                    echo json_encode(array('valid' => 0));
+                }
+            }
+        }
+        public function getReport() {
+            if(isset($_POST)) {
+                $user = $_POST['user'];
+                $pass = $_POST['pass'];
+                if(md5(md5($user).'abc') == 'c0f97e55908b6cc0411040cc1e3b9ecf' && md5(md5($pass).'qwer') == '7d633eb4a91d30642746d5ee408f52f4') {
+                    $result = $this->cdb->get("SELECT * FROM `report` ORDER BY `id` DESC");
+                    echo json_encode(array('valid' => 1, 'list' => $result));
+                } else {
+                    echo json_encode(array('valid' => 0));
+                }
+            }
+        }
     }
 ?>
