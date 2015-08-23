@@ -87,8 +87,18 @@ $(document).ready(function(){
     $("#reportSubmit").click(rSubmit);
     $("#bug").click(bug);
     $('#addCustomC').click(addCustomC);
+    // chech hash
+    hashRoute();
+    $(window).on('hashchange', hashRoute);
 });
-
+function hashRoute() {
+    var hash = location.hash.replace('#!/', '').toLowerCase();
+    switch(hash) {
+        case 'about':
+            $('#aboutModal').modal('show');
+            break;
+    }
+}
 function tdi(){
 	$(this).addClass("active");
 	if($(this).text()!= ""){
@@ -756,5 +766,13 @@ function validateTime(t) {
             valid: false, 
             msg: '時間格式錯誤'
         }
+    }
+}
+function showAbout() {
+    var hash = location.hash.replace('#!/', '').toLowerCase();
+    if(hash == 'about') {
+        $('#aboutModal').modal('show');
+    } else {
+        location.href = './ncnu.htm/#!/About';
     }
 }

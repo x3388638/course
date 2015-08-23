@@ -1,3 +1,7 @@
+@font-face {
+	font-family: aboutFont1;
+	src: url('http://localhost/codeigniter/course/application/views/fonts/qishangbaxia.ttf');
+}
 body{
 	background: #f3f3f3;
 	font-family: "微軟正黑體";
@@ -175,6 +179,27 @@ body{
 }
 #loading{
 	display: none;
+}
+#aboutModal .modal-body #aboutTitle {
+	text-align:center;
+	border-top:3px solid rgb(115, 59, 3);
+	border-bottom:3px solid rgb(115, 59, 3);
+	border-left:30px solid rgb(115, 59, 3);
+	border-right:2px solid rgb(115, 59, 3); 
+	background: rgb(5, 60, 0);
+	color: #fff;
+}
+#aboutModal .modal-body .rotateItem span {
+	transition: transform 1.5s;
+}
+#aboutModal .modal-body .rotateItem:hover span {
+	transform: rotate(-1080deg) !important;
+}
+#aboutModal .modal-body .highlight{
+	background: rgba(255, 255, 0, 0.71)
+}
+#aboutModal .modal-body .underline{
+	border-bottom: 2px solid rgb(220, 0, 0);
 }
 /*
 div{
