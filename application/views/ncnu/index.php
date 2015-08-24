@@ -208,6 +208,8 @@
                                     </div>
                                 </div>
                             </p>
+                            <hr style="border: 1px solid rgba(0, 0, 0, 0.1);" />
+                            <span class="pull-right" style="font-family:'Coming Soon', cursive;font-size:12px;text-align:right">made by <a href="http://fb.com/chang1994" target="_blank">ChaNg YY</a><br/>08.2014</span>
                         </div>
                     </div>
                 </div>
